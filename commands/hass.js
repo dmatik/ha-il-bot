@@ -9,12 +9,7 @@ module.exports = {
 	cooldown: 5,
 	execute(message, args) {
 
-		const data = [];
-
-
 		getCurrentVersion().then(html => {
-			data.push('Home Assitant');
-
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Home Assistant')
 				.setDescription(`[Release Notes](${html[2]})`)
