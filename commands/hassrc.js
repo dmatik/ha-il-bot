@@ -1,10 +1,10 @@
 const rp = require('request-promise');
-const url = 'https://home-assistant.io';
+const url = 'https://rc.home-assistant.io';
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'hass',
-	description: 'Home Assistant information',
+	name: 'hassrc',
+	description: 'Home Assistant RC information',
 	usage: ' ',
 	cooldown: 5,
 	execute(message, args) {
@@ -16,11 +16,11 @@ module.exports = {
 			data.push('Home Assitant');
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('Home Assistant')
+				.setTitle('Home Assistant RC')
 				.setDescription(`[Release Notes](${html[2]})`)
 				.addFields(
-					{ name: 'Current Version', value: `${html[0]}`, inline: true },
-					{ name: 'Released', value: `${html[1]}`, inline: true },
+					{ name: 'Next Version', value: `${html[0]}`, inline: true },
+					{ name: 'Release Date', value: `${html[1]}`, inline: true },
 					// { name: 'Release Notes', value: `[Release Notes](${html[2]})` },
 				);
 
