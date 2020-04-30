@@ -5,7 +5,7 @@ module.exports = {
 	cooldown: 5,
 	execute(message, args) {
 		if (!message.mentions.users.size) {
-			return message.reply('you need to tag a user in order to kick them!');
+			return message.reply('you need to mention a user in order to kick them!');
 		}
 
 		const taggedUser = message.mentions.users.first();
