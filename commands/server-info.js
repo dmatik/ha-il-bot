@@ -13,7 +13,10 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.addFields(
 					{ name: 'Owner', value: message.guild.owner.user.tag, inline: true },
-					{ name: 'Server Created', value: message.guild.createdAt.getDate() + '/' + (message.guild.createdAt.getMonth() + 1) + '/' + message.guild.createdAt.getFullYear(), inline: true },
+					{ name: 'Server Created', value: message.guild.createdAt.getDate()
+						+ '/' + (message.guild.createdAt.getMonth() + 1)
+						+ '/' + message.guild.createdAt.getFullYear(),
+					inline: true },
 					// { name: 'Roles', value: message.guild.roles.holds.length, inline: true },
 					{ name: 'Memebers', value: message.guild.memberCount + ' members\n' + totalOnline.size + ' online\n', inline: true },
 					// { name: 'Channels', value: totalChannels.size, inline: true },

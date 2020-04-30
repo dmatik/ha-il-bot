@@ -2,6 +2,12 @@ const fs = require('fs');
 const config = require('./config.json');
 const token = config.token;
 const prefix = config.prefix;
+const botDB = config.botDB;
+const generalChannelID = config.generalChannelID;
+const Keyv = require('keyv');
+const hassBotDb = new Keyv(botDB);
+const haUrl = 'https://version.home-assistant.io/stable.json';
+const rp = require('request-promise');
 
 
 const Discord = require('discord.js');
@@ -9,16 +15,24 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+
+// hassBotDb.set('haCurrVersion', '0.109.0');
+
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+client.once('ready', async () => {
 	console.log('Ready!');
+
+	const haCurrVersion = await hassBotDb.get('haCurrVersion');
+	console.log(haCurrVersion);
+	checkHaVersionLoop(haCurrVersion, client);
 });
 
 client.on('message', message => {
+
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).split(/ +/);
@@ -39,3 +53,34 @@ client.on('message', message => {
 
 client.login(token);
 
+function getNewHaVersion() {
+	return rp(haUrl).then(function(json) {
+		const jsonObject = JSON.parse(json);
+		const version = jsonObject.homeassistant.default;
+
+		return version;
+	});
+}
+
+function checkHaVersionLoop(haCurrVersion, client) {
+	setTimeout(async function() {
+		const haNewVersion = await getNewHaVersion();
+
+		if (haNewVersion != haCurrVersion) {
+			await hassBotDb.set('haCurrVersion', haNewVersion);
+			haCurrVersion = haNewVersion;
+			console.log('HA updated to version: ' + haNewVersion);
+
+			const embed = new Discord.MessageEmbed()
+				.setDescription('[Release Notes](https://www.home-assistant.io/latest-release-notes/)')
+				.setTitle('Home Assistant Updated')
+				.addFields(
+					{ name: 'New Version', value: haNewVersion, inline: false },
+				);
+			const channel = client.channels.cache.get(generalChannelID);
+			channel.send(embed);
+		}
+
+		checkHaVersionLoop(haCurrVersion, client);
+	}, 900000);
+}
