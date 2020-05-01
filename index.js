@@ -2,6 +2,7 @@ const fs = require('fs');
 const config = require('./config.json');
 const token = config.token;
 const prefix = config.prefix;
+const haCheckInterval = config.haCheckInterval;
 const generalChannelID = config.generalChannelID;
 const haUrl = 'https://version.home-assistant.io/stable.json';
 const rp = require('request-promise');
@@ -89,5 +90,5 @@ function checkHaVersionLoop(haCurrVersion) {
 		}
 
 		checkHaVersionLoop(haCurrVersion);
-	}, 900000);
+	}, haCheckInterval);
 }
