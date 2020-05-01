@@ -2,12 +2,12 @@ const fs = require('fs');
 const config = require('./config.json');
 const token = config.token;
 const prefix = config.prefix;
-const botDB = config.botDB;
 const generalChannelID = config.generalChannelID;
-const Keyv = require('keyv');
-const hassBotDb = new Keyv(botDB);
 const haUrl = 'https://version.home-assistant.io/stable.json';
 const rp = require('request-promise');
+
+const Quick = require('quick.db-plus');
+const db = new Quick.db('database');
 
 
 const Discord = require('discord.js');
@@ -26,9 +26,16 @@ for (const file of commandFiles) {
 client.once('ready', async () => {
 	console.log('Ready!');
 
-	const haCurrVersion = await hassBotDb.get('haCurrVersion');
+	let haCurrVersion = '';
+	haCurrVersion = await db.get('haCurrVersion');
+
+	if (!haCurrVersion) {
+		await db.set('haCurrVersion', '0.108.0');
+		haCurrVersion = await db.get('haCurrVersion');
+	}
+
 	console.log(haCurrVersion);
-	checkHaVersionLoop(haCurrVersion, client);
+	checkHaVersionLoop(haCurrVersion);
 });
 
 client.on('message', message => {
@@ -62,12 +69,12 @@ function getNewHaVersion() {
 	});
 }
 
-function checkHaVersionLoop(haCurrVersion, client) {
+function checkHaVersionLoop(haCurrVersion) {
 	setTimeout(async function() {
 		const haNewVersion = await getNewHaVersion();
 
 		if (haNewVersion != haCurrVersion) {
-			await hassBotDb.set('haCurrVersion', haNewVersion);
+			await db.set('haCurrVersion', haNewVersion);
 			haCurrVersion = haNewVersion;
 			console.log('HA updated to version: ' + haNewVersion);
 
@@ -81,6 +88,6 @@ function checkHaVersionLoop(haCurrVersion, client) {
 			channel.send(embed);
 		}
 
-		checkHaVersionLoop(haCurrVersion, client);
+		checkHaVersionLoop(haCurrVersion);
 	}, 900000);
 }
