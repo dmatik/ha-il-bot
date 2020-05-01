@@ -24,11 +24,11 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', async () => {
+client.once('ready', () => {
 	console.log('Ready!');
 
 	let haCurrVersion = '';
-	haCurrVersion = await db.get('haCurrVersion');
+	haCurrVersion = db.get('haCurrVersion');
 
 	if (!haCurrVersion) {
 
@@ -39,12 +39,7 @@ client.once('ready', async () => {
 			console.error('Could not set DB', error);
 		}
 
-		try {
-			haCurrVersion = await db.get('haCurrVersion');
-		}
-		catch (error) {
-			console.error('Could not get from DB', error);
-		}
+		haCurrVersion = '0.108.0';
 	}
 
 	console.log(haCurrVersion);
