@@ -33,7 +33,7 @@ client.once('ready', async () => {
 	if (!haCurrVersion) {
 
 		try {
-			await db.set('haCurrVersion', '0.108.0');
+			db.set('haCurrVersion', '0.108.0');
 		}
 		catch (error) {
 			console.error('Could not set DB', error);
@@ -89,7 +89,7 @@ function checkHaVersionLoop(haCurrVersion) {
 		if (haNewVersion != haCurrVersion) {
 
 			try {
-				await db.set('haCurrVersion', haNewVersion);
+				db.set('haCurrVersion', haNewVersion);
 			}
 			catch (error) {
 				console.error('Could not update DB', error);
