@@ -33,7 +33,7 @@ module.exports = {
                     + member.joinedAt.getMinutes(),
 				inline: true },
 			)
-			.setThumbnail(user.displayAvatarURL(['png', true]))
+			.setThumbnail(user.displayAvatarURL({ format: 'png', dynamic: true }))
 			.setFooter(`Requested by: ${message.author.tag}`);
 
 		message.channel.send(embed);
