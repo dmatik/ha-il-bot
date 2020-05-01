@@ -85,8 +85,14 @@ function checkHaVersionLoop(haCurrVersion) {
 				.addFields(
 					{ name: 'New Version', value: haNewVersion, inline: false },
 				);
-			const channel = client.channels.cache.get(generalChannelID);
-			channel.send(embed);
+
+			const generalChannel = client.channels.cache.get(generalChannelID);
+			try {
+				generalChannel.send(embed);
+			}
+			catch (error) {
+				console.error('Could not send message to channel', error);
+			}
 		}
 
 		checkHaVersionLoop(haCurrVersion);
