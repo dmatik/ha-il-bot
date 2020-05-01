@@ -31,8 +31,20 @@ client.once('ready', async () => {
 	haCurrVersion = await db.get('haCurrVersion');
 
 	if (!haCurrVersion) {
-		await db.set('haCurrVersion', '0.108.0');
-		haCurrVersion = await db.get('haCurrVersion');
+
+		try {
+			await db.set('haCurrVersion', '0.108.0');
+		}
+		catch (error) {
+			console.error('Could not set DB', error);
+		}
+
+		try {
+			haCurrVersion = await db.get('haCurrVersion');
+		}
+		catch (error) {
+			console.error('Could not get from DB', error);
+		}
 	}
 
 	console.log(haCurrVersion);
@@ -75,7 +87,13 @@ function checkHaVersionLoop(haCurrVersion) {
 		const haNewVersion = await getNewHaVersion();
 
 		if (haNewVersion != haCurrVersion) {
-			await db.set('haCurrVersion', haNewVersion);
+
+			try {
+				await db.set('haCurrVersion', haNewVersion);
+			}
+			catch (error) {
+				console.error('Could not update DB', error);
+			}
 			haCurrVersion = haNewVersion;
 			console.log('HA updated to version: ' + haNewVersion);
 
