@@ -7,8 +7,8 @@ const generalChannelID = config.generalChannelID;
 const haUrl = 'https://version.home-assistant.io/stable.json';
 const rp = require('request-promise');
 
-// const Quick = require('quick.db-plus');
-// const db = new Quick.db('database');
+const Quick = require('quick.db-plus');
+const db = new Quick.db('database');
 
 
 const Discord = require('discord.js');
@@ -25,31 +25,20 @@ client.once('ready', () => {
 	console.log('Ready!');
 
 	let haCurrVersion = 'old';
-	// haCurrVersion = db.get('haCurrVersion');
+	haCurrVersion = db.get('haCurrVersion');
 
-	fs.readFile('input.txt', function(err, data) {
-		if (err) {
-			fs.writeFile('ha_version', 'old', function(err) {
-				if (err) {
-					return console.error(err);
-				}
-			});
+
+	if (!haCurrVersion) {
+
+		try {
+			db.set('haCurrVersion', '0.108.0');
 		}
-		haCurrVersion = data;
-	});
+		catch (error) {
+			console.error('Could not set DB', error);
+		}
 
-
-	// if (!haCurrVersion) {
-
-	// 	try {
-	// 		db.set('haCurrVersion', '0.108.0');
-	// 	}
-	// 	catch (error) {
-	// 		console.error('Could not set DB', error);
-	// 	}
-
-	// 	haCurrVersion = '0.108.0';
-	// }
+		haCurrVersion = '0.108.0';
+	}
 
 	console.log(haCurrVersion);
 	checkHaVersionLoop(haCurrVersion);
@@ -92,18 +81,12 @@ function checkHaVersionLoop(haCurrVersion) {
 
 		if (haNewVersion != haCurrVersion) {
 
-			// try {
-			// 	db.set('haCurrVersion', haNewVersion);
-			// }
-			// catch (error) {
-			// 	console.error('Could not update DB', error);
-			// }
-
-			fs.writeFile('ha_version', haNewVersion, function(err) {
-				if (err) {
-					return console.error(err);
-				}
-			});
+			try {
+				db.set('haCurrVersion', haNewVersion);
+			}
+			catch (error) {
+				console.error('Could not update DB', error);
+			}
 
 			haCurrVersion = haNewVersion;
 			console.log('HA updated to version: ' + haNewVersion);
