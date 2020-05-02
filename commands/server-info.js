@@ -8,6 +8,8 @@ module.exports = {
 	execute(message, args) {
 
 		const totalOnlineMembers = message.guild.members.cache.filter((m) => m.presence.status != 'offline').size;
+		const totalBots = message.guild.members.cache.filter((m) => m.user.bot == true).size;
+		const totalHumans = message.guild.members.cache.filter((m) => m.user.bot == false).size;
 
 		const totalTextChannels = message.guild.channels.cache.filter((c) => c.type === 'text').size;
 		const totalVoiceChannels = message.guild.channels.cache.filter((c) => c.type === 'voice').size;
@@ -22,7 +24,10 @@ module.exports = {
 				inline: true },
 				{ name: 'Roles', value: message.guild.roles.cache.size, inline: true },
 				{ name: 'Memebers', value: message.guild.memberCount + ' members\n'
-					+ totalOnlineMembers + ' online\n', inline: true },
+					+ totalOnlineMembers + ' online\n'
+					+ totalBots + ' bots, '
+					+ totalHumans + ' humans',
+				inline: true },
 				{ name: 'Channels', value: message.guild.channels.cache.size + ' channels:\n'
 					+ totalCategories + ' categories\n'
 					+ totalTextChannels + ' text, '
