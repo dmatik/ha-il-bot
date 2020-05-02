@@ -15,9 +15,13 @@ module.exports = {
 		const days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
 		const months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
+		const roles = [];
+		roles.push(member.roles.cache.map(role => role.name).join(', '));
+
 		const embed = new Discord.MessageEmbed()
 			.addFields(
 				{ name: 'User', value: user.tag + '\nID: ' + user.id, inline: true },
+				{ name: 'Roles', value: roles, inline: true },
 				{ name: 'Joined Discord at', value: days[user.createdAt.getDay()] + ', '
                     + months[user.createdAt.getMonth()] + ' '
                     + user.createdAt.getDate() + ', '
