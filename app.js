@@ -21,23 +21,21 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
+client.once('ready', async () => {
 	console.log('Ready!');
 
-	let haCurrVersion = 'old';
+	let haCurrVersion = '';
 	haCurrVersion = db.get('haCurrVersion');
 
 
 	if (!haCurrVersion) {
-
+		haCurrVersion = await getNewHaVersion();
 		try {
-			db.set('haCurrVersion', '0.108.0');
+			db.set('haCurrVersion', haCurrVersion);
 		}
 		catch (error) {
 			console.error('Could not set DB', error);
 		}
-
-		haCurrVersion = '0.108.0';
 	}
 
 	console.log(haCurrVersion);
