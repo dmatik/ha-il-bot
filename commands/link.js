@@ -8,11 +8,11 @@ module.exports = {
 	// linksMap: '',
 	execute(message, args, links) {
 
-		const linkCommand = args.shift().toLowerCase();
-
-		if(!linkCommand) {
+		if(!args.length) {
 			return message.reply('please specify alias or command');
 		}
+
+		const linkCommand = args.shift().toLowerCase();
 
 		if(linkCommand === 'add') {
 			if(!message.member.hasPermission('ADMINISTRATOR') && !message.member.hasPermission('MODERATOR')) {
