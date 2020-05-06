@@ -7,8 +7,9 @@ const generalChannelID = config.generalChannelID;
 const haUrl = 'https://version.home-assistant.io/stable.json';
 const rp = require('request-promise');
 
-const Quick = require('quick.db-plus');
-const db = new Quick.db('database');
+const db = require('quick.db');
+// const db = new Quick.db('database');
+const myLinks = new db.table('myLinks');
 
 
 const Discord = require('discord.js');
@@ -38,6 +39,10 @@ client.once('ready', async () => {
 		}
 	}
 
+	if(!myLinks.get('hass')) {
+		myLinks.set('hass', 'https://www.home-assistant.io/');
+	}
+
 	console.log(haCurrVersion);
 	checkHaVersionLoop(haCurrVersion);
 });
@@ -53,7 +58,7 @@ client.on('message', message => {
 
 	const command = client.commands.get(commandName);
 	try {
-		command.execute(message, args);
+		command.execute(message, args, myLinks);
 	}
 	catch (error) {
 		console.error(error);
