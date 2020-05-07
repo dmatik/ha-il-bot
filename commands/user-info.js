@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'user-info',
 	description: 'User information',
-	usage: '[@user]',
+	usage: prefix + 'user-info [user]',
 	cooldown: 5,
 	execute(message, args) {
 		if (!message.mentions.users.size) {

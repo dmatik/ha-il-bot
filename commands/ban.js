@@ -1,11 +1,10 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
-const incidentChannelID = config.incidentChannelID;
+const { prefix, incidentChannelID } = require('../config.json');
 
 module.exports = {
 	name: 'ban',
 	description: 'Ban member',
-	usage: '[@user] [@reason]',
+	usage: prefix + 'ban [user] (Optional reason)',
 	cooldown: 5,
 	execute(message, args) {
 

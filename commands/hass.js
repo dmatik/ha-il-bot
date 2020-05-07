@@ -1,11 +1,12 @@
 const rp = require('request-promise');
 const url = 'https://home-assistant.io';
 const Discord = require('discord.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'hass',
 	description: 'Home Assistant information',
-	usage: ' ',
+	usage: prefix + 'hass',
 	cooldown: 5,
 	execute(message, args) {
 

@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'link',
 	description: 'Dynamic system to store useful links',
-	usage: '[@alias] / [@command]',
+	usage: prefix + 'link [alias/all]\n' + prefix + 'link [add/update] [alias] (Link)\n' + prefix + 'link [add/update] [alias]',
 	cooldown: 5,
 	// linksMap: '',
 	execute(message, args, links) {

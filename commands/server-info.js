@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
 	name: 'server-info',
 	description: 'Server information',
-	usage: ' ',
+	usage: prefix + 'server-info [user]',
 	cooldown: 5,
 	execute(message, args) {
 

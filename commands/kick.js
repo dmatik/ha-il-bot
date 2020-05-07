@@ -1,11 +1,10 @@
 const Discord = require('discord.js');
-const config = require('../config.json');
-const incidentChannelID = config.incidentChannelID;
+const { prefix, incidentChannelID } = require('../config.json');
 
 module.exports = {
 	name: 'kick',
 	description: 'Kick member',
-	usage: '[@user] [@reason]',
+	usage: prefix + 'kick [user] (Optional reason)',
 	cooldown: 5,
 	execute(message, args) {
 
