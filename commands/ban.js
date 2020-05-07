@@ -1,5 +1,12 @@
 const Discord = require('discord.js');
-const { prefix, incidentChannelID } = require('../config.json');
+
+// const { prefix, incidentChannelID } = require('../config.json');
+
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+const prefix = process.env.PREFIX;
+const incidentChannelID = process.env.INC_CHANNEL_ID;
 
 module.exports = {
 	name: 'ban',

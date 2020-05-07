@@ -1,9 +1,18 @@
 const fs = require('fs');
-const config = require('./config.json');
-const token = config.token;
-const prefix = config.prefix;
-const haCheckInterval = config.haCheckInterval;
-const generalChannelID = config.generalChannelID;
+
+// const config = require('./config.json');
+// const token = config.token;
+// const prefix = config.prefix;
+// const haCheckInterval = config.haCheckInterval;
+// const generalChannelID = config.generalChannelID;
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+const token = process.env.TOKEN;
+const prefix = process.env.PREFIX;
+const haCheckInterval = process.env.HA_CHECK_INT;
+const generalChannelID = process.env.GEN_CHANNEL_ID;
+
 const haUrl = 'https://version.home-assistant.io/stable.json';
 const rp = require('request-promise');
 

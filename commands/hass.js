@@ -1,7 +1,13 @@
 const rp = require('request-promise');
 const url = 'https://home-assistant.io';
 const Discord = require('discord.js');
-const { prefix } = require('../config.json');
+
+// const { prefix } = require('../config.json');
+
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+const prefix = process.env.PREFIX;
 
 module.exports = {
 	name: 'hass',

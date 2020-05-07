@@ -1,5 +1,10 @@
 const Discord = require('discord.js');
-const { prefix } = require('../config.json');
+
+// const { prefix } = require('../config.json');
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+const prefix = process.env.PREFIX;
 
 module.exports = {
 	name: 'server-info',
