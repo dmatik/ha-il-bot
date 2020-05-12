@@ -11,6 +11,11 @@ module.exports = {
 	usage: prefix + 'ping',
 	cooldown: 5,
 	execute(message, args) {
+
+		if(!message.member.hasPermission('ADMINISTRATOR') && !message.member.hasPermission('MODERATOR')) {
+			return message.reply('you are not allowed!');
+		}
+
 		message.channel.send('Pong!');
 	},
 };

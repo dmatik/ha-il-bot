@@ -12,6 +12,11 @@ module.exports = {
 	usage: prefix + 'user-info [user]',
 	cooldown: 5,
 	execute(message, args) {
+
+		if(!message.member.hasPermission('ADMINISTRATOR') && !message.member.hasPermission('MODERATOR')) {
+			return message.reply('you are not allowed!');
+		}
+
 		if (!message.mentions.users.size) {
 			return message.reply('you need to mention a user!');
 		}
