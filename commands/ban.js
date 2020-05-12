@@ -22,7 +22,10 @@ module.exports = {
 		if(banReason === '') banReason = 'None';
 
 		if(!message.member.hasPermission('BAN_MEMBERS')) return message.reply('you are not allowed to ban!');
-		// if(kUser.hasPermission('MANAGE_MESSAGES')) return message.reply('that person can\'t be banned!');
+
+		const banMember = message.mentions.members.first();
+		if(!banMember) return message.reply('mentioned user must be a member of this server!');
+		if(banMember.bannable == false) return message.reply('you are not allowed!');
 
 		const embed = new Discord.MessageEmbed()
 			.setTitle('Ban')
@@ -38,7 +41,7 @@ module.exports = {
 		const banChannel = message.guild.channels.cache.get(incidentChannelID);
 		if(!banChannel) return message.reply('can\'t find incidents channel.');
 
-		message.guild.member(banUser).kick(banReason);
+		message.guild.member(banUser).ban(banReason);
 		banChannel.send(embed);
 	},
 };

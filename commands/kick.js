@@ -20,8 +20,11 @@ module.exports = {
 		let kickReason = args.join(' ').slice(22);
 		if(kickReason === '') kickReason = 'None';
 
-		if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('you are not allowed to kick!');
-		// if(kUser.hasPermission('MANAGE_MESSAGES')) return message.reply('that person can\'t be kicked!');
+		if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply('you are not allowed!');
+
+		const kickMember = message.mentions.members.first();
+		if(!kickMember) return message.reply('mentioned user must be a member of this server!');
+		if(kickMember.kickable == false) return message.reply('you are not allowed!');
 
 		const embed = new Discord.MessageEmbed()
 			.setTitle('Kick')
