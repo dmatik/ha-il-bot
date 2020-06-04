@@ -9,7 +9,7 @@ const prefix = process.env.PREFIX;
 module.exports = {
 	name: 'server-info',
 	description: 'Server information',
-	usage: prefix + 'server-info [user]',
+	usage: prefix + 'server-info',
 	cooldown: 5,
 	execute(message, args) {
 
