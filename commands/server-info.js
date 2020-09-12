@@ -19,7 +19,7 @@ module.exports = {
 
 		const totalOnlineMembers = message.guild.members.cache.filter((m) => m.presence.status != 'offline').size;
 		const totalBots = message.guild.members.cache.filter((m) => m.user.bot == true).size;
-		const totalHumans = message.guild.members.cache.filter((m) => m.user.bot == false).size;
+		const totalHumans = message.guild.memberCount - totalBots;
 
 		const totalTextChannels = message.guild.channels.cache.filter((c) => c.type === 'text').size;
 		const totalVoiceChannels = message.guild.channels.cache.filter((c) => c.type === 'voice').size;
